@@ -1,9 +1,11 @@
+import os.path
 from selene import browser, have, be
 from selene.support.shared import browser
 from selene import command
 
 
 def test_complete_registration_demoqa():
+    browser.config.browser_name = 'Google Chrome'
     browser.config.base_url = 'https://demoqa.com/automation-practice-form'
     browser.open()
     browser.driver.maximize_window()
@@ -28,8 +30,8 @@ def test_complete_registration_demoqa():
     browser.all('[for = hobbies-checkbox-2]').element_by(have.exact_text('Reading')).click()
     browser.all('[for = hobbies-checkbox-3]').element_by(have.exact_text('Music')).click()
 
-    browser.element('#uploadPicture').send_keys()
-    #добавить картинку
+    browser.element('#uploadPicture').send_keys(os.path.abspath('../qa_guru_home_work_5_5/resource/pictures.jpg'))
+
     browser.element('#currentAddress').perform(command.js.scroll_into_view)
     browser.element('#currentAddress').send_keys('Pharabi street 18')
 
@@ -38,8 +40,13 @@ def test_complete_registration_demoqa():
     browser.element('#city').click()
     browser.all('[id^=react-select][id*=option]').element_by(have.exact_text('Jaipur')).click()
 
+    browser.element('#submit').perform(command.js.click)
 
+    # THEN
 
+    # browser.element('.table-responsive').al('td').should(
+    #     (Student Name, Albert
+    # )
 
 
 
