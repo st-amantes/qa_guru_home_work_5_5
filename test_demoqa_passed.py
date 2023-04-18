@@ -1,11 +1,10 @@
 import os.path
-from selene import browser, have, be
-from selene.support.shared import browser
+from selene import browser, have
 from selene import command
+from selene.support.shared import browser
 
 
 def test_complete_registration_demoqa():
-    browser.config.browser_name = 'Google Chrome'
     browser.config.base_url = 'https://demoqa.com/automation-practice-form'
     browser.open()
     browser.driver.maximize_window()
@@ -25,7 +24,7 @@ def test_complete_registration_demoqa():
     browser.element('.react-datepicker__year-select').send_keys('1993')
     browser.element(f'.react-datepicker__day--0{28}').click()
 
-    browser.element('#subjectsInput').send_keys('Physics').send_keys('Enter')
+    browser.element('#subjectsInput').send_keys('Physics').press_enter()
     browser.all('[for = hobbies-checkbox-1]').element_by(have.exact_text('Sports')).click()
     browser.all('[for = hobbies-checkbox-2]').element_by(have.exact_text('Reading')).click()
     browser.all('[for = hobbies-checkbox-3]').element_by(have.exact_text('Music')).click()
@@ -44,9 +43,18 @@ def test_complete_registration_demoqa():
 
     # THEN
 
-    # browser.element('.table-responsive').al('td').should(
-    #     (Student Name, Albert
-    # )
+    browser.all('tbody tr').should(have.exact_texts(
+        ('Student Name Albert Ivanov',
+        'Student Email ALLIIVAN@mail.ru',
+        'Gender Male',
+        'Mobile 8954567689',
+        'Date of Birth 28 November,1993',
+        'Subjects Physics',
+        'Hobbies Sports, Reading, Music',
+        'Picture pictures.jpg',
+        'Address Pharabi street 18',
+        'State and City Rajasthan Jaipur',)
+    ))
 
 
 
